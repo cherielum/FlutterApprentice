@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'recipe.dart';
+import 'recipe_detail.dart';
+
 
 void main() {
   runApp(const RecipeApp());
@@ -69,16 +72,66 @@ class _MyHomePageState extends State<MyHomePage> {
           // 6
           itemBuilder: (BuildContext context, int index) {
             // 7
-            // TODO: Update to return Recipe card
+            // 7
+            return GestureDetector(
+              // 8
+              onTap: () {
+                // 9
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      // 10
+                      return RecipeDetail(recipe: Recipe.samples[index]);
+                      return Text('Detail page');
+                    },
+                  ),
+                );
+              },
+              // 11
+              child: buildRecipeCard(Recipe.samples[index]),
+            );
+
+            return buildRecipeCard(Recipe.samples[index]);
+
             return Text(Recipe.samples[index].label);
-  },
-),
-
-
+          },
         ),
+      ),
     );
   }
 
-  // TODO: Add buildRecipeCard() here
+  Widget buildRecipeCard(Recipe recipe) {
+    return Card(
+      // 1
+      elevation: 2.0,
+      // 2
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0)),
+      // 3
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        // 4
+        child: Column(
+          children: <Widget>[
+            Image(image: AssetImage(recipe.imageUrl)),
+            // 5
+            const SizedBox(
+              height: 10.0,
+            ),
+            // 6
+            Text(
+              recipe.label,
+              style: const TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.w700,
+                fontFamily: 'Palatine',
+                backgroundColor: Colors.yellowAccent,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }
-
